@@ -3,7 +3,7 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define([], function () {
-            root.console = factory(root, root.console || {});
+            return root.console = factory(root, root.console || {});
         });
 
     } else if (typeof exports !== 'undefined') {

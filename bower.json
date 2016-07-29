@@ -1,15 +1,15 @@
 {
-  "name": "js-console",
-  "homepage": "https://github.com/DasRed/js-console",
-  "main": "",
-  "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "dependencies": {
-  }
+    "name": "js-console",
+    "homepage": "https://github.com/DasRed/js-console",
+    "main": "",
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+    }
 }
