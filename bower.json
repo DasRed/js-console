@@ -1,6 +1,6 @@
 {
-  "name": "dasred/console.js",
-  "homepage": "https://github.com/DasRed/console.js",
+  "name": "js-console",
+  "homepage": "https://github.com/DasRed/js-console",
   "main": "",
   "license": "MIT",
   "ignore": [
