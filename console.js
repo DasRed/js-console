@@ -14,34 +14,49 @@
     }
 
 }(this, function (root, console) {
+    /**
+     * no op function
+     */
+    function noop() {
 
-    // log levels
-    console.LEVEL_CRITICAL = 1;
-    console.LEVEL_ALERT = 2;
-    console.LEVEL_ERROR = 3;
-    console.LEVEL_WARN = 4;
-    console.LEVEL_NOTICE = 5;
-    console.LEVEL_INFO = 6;
-    console.LEVEL_DEBUG = 7;
+    }
 
+    // Backup
+    var consoleError = console.error || noop;
+    var consoleWarn  = console.warn || noop;
+    var consoleInfo  = console.info || noop;
+    var consoleLog   = console.log || noop;
+    var consoleDebug = console.debug || noop;
+
+    // log levels from Monolog
+    console.LEVEL_DEBUG     = 100;
+    console.LEVEL_INFO      = 200;
+    console.LEVEL_NOTICE    = 250;
+    console.LEVEL_WARN      = 300;
+    console.LEVEL_ERROR     = 400;
+    console.LEVEL_CRITICAL  = 500;
+    console.LEVEL_ALERT     = 550;
+    console.LEVEL_EMERGENCY = 600;
+
+    // initial default level
     console.level = console.LEVEL_DEBUG;
 
     var hasColorSupport = (root.navigator === undefined || root.navigator.userAgent === undefined || (/Trident/g).test(root.navigator.userAgent) === false);
 
-    var warnText = {};
-    warnText[console.LEVEL_CRITICAL] = 'critical';
-    warnText[console.LEVEL_ALERT] = 'alert   ';
-    warnText[console.LEVEL_ERROR] = 'error   ';
-    warnText[console.LEVEL_WARN] = 'warn    ';
-    warnText[console.LEVEL_NOTICE] = 'notice  ';
-    warnText[console.LEVEL_INFO] = 'info    ';
-    warnText[console.LEVEL_DEBUG] = 'debug   ';
+    var warnText                      = {};
+    warnText[console.LEVEL_EMERGENCY] = 'emergency';
+    warnText[console.LEVEL_CRITICAL]  = 'critical ';
+    warnText[console.LEVEL_ALERT]     = 'alert    ';
+    warnText[console.LEVEL_ERROR]     = 'error    ';
+    warnText[console.LEVEL_WARN]      = 'warn     ';
+    warnText[console.LEVEL_NOTICE]    = 'notice   ';
+    warnText[console.LEVEL_INFO]      = 'info     ';
+    warnText[console.LEVEL_DEBUG]     = 'debug    ';
 
     /**
      * colors
      */
-    var colors =
-    {
+    var colors = {
         grey: 'color: #777777;',
         green: 'color: #00AA00;',
         blue: 'color: #0000CC;',
@@ -63,7 +78,7 @@
             return 'unknown';
         }
 
-        var stack = errorHelper.stack.match(/http\:\/\/(.*?)\.js/gi);
+        var stack  = errorHelper.stack.match(/http\:\/\/(.*?)\.js/gi);
         var source = stack[stack.length - 1];
         if (stack.length >= 4) {
             source = stack[3];
@@ -88,7 +103,7 @@
      * @param {Mixed} ...
      * @param {Mixed} ...
      */
-    function partial (callback) {
+    function partial(callback) {
         var args = Array.prototype.slice.call(arguments);
         args.shift();
 
@@ -108,29 +123,29 @@
      * ...
      */
     function wrapper(warnLevel, proceed, color) {
-        if (warnLevel > console.level) {
+        if (warnLevel < console.level) {
             return;
         }
 
         var date = new Date();
 
         // get primitive values from date
-        var day = String(date.getDate());
+        var day   = String(date.getDate());
         var month = String(date.getMonth() + 1);
-        var year = String(date.getFullYear());
+        var year  = String(date.getFullYear());
 
-        var hours = String(date.getHours());
-        var minutes = String(date.getMinutes());
-        var seconds = String(date.getSeconds());
+        var hours        = String(date.getHours());
+        var minutes      = String(date.getMinutes());
+        var seconds      = String(date.getSeconds());
         var milliseconds = String(date.getMilliseconds());
 
         // make it readable for humans. we need more maschines. long live skynet
-        day = (day.length < 2 ? '0' : '') + day;
+        day   = (day.length < 2 ? '0' : '') + day;
         month = (month.length < 2 ? '0' : '') + month;
 
-        hours = (hours.length < 2 ? '0' : '') + hours;
-        minutes = (minutes.length < 2 ? '0' : '') + minutes;
-        seconds = (seconds.length < 2 ? '0' : '') + seconds;
+        hours        = (hours.length < 2 ? '0' : '') + hours;
+        minutes      = (minutes.length < 2 ? '0' : '') + minutes;
+        seconds      = (seconds.length < 2 ? '0' : '') + seconds;
         milliseconds = (milliseconds.length < 3 ? '0' : '') + milliseconds;
         milliseconds = (milliseconds.length < 3 ? '0' : '') + milliseconds;
 
@@ -189,41 +204,30 @@
         return proceed(parameters.join(''));
     }
 
-    // Backup
-    var consoleError = console.error || function() {};
-    var consoleWarn = console.warn || function() {};
-    var consoleInfo = console.info || function() {};
-    var consoleLog = console.log || function() {};
-    var consoleDebug = console.debug || function() {};
-
     // wraps all log functions
-    console.critical = partial(wrapper, console.LEVEL_CRITICAL, consoleError);
-    console.alert = partial(wrapper, console.LEVEL_ALERT, consoleError);
-    console.error = partial(wrapper, console.LEVEL_ERROR, consoleError);
-
-    console.warn = partial(wrapper, console.LEVEL_WARN, consoleWarn);
-    console.notice = partial(wrapper, console.LEVEL_NOTICE, consoleWarn);
-
-    console.info = partial(wrapper, console.LEVEL_INFO, consoleInfo);
-
-    console.debug = partial(wrapper, console.LEVEL_DEBUG, consoleDebug);
-    console.log = partial(wrapper, console.LEVEL_DEBUG, consoleLog);
+    console.emergency = partial(wrapper, console.LEVEL_EMERGENCY, consoleError);
+    console.critical  = partial(wrapper, console.LEVEL_CRITICAL, consoleError);
+    console.alert     = partial(wrapper, console.LEVEL_ALERT, consoleError);
+    console.error     = partial(wrapper, console.LEVEL_ERROR, consoleError);
+    console.warn      = partial(wrapper, console.LEVEL_WARN, consoleWarn);
+    console.notice    = partial(wrapper, console.LEVEL_NOTICE, consoleWarn);
+    console.info      = partial(wrapper, console.LEVEL_INFO, consoleInfo);
+    console.debug     = partial(wrapper, console.LEVEL_DEBUG, consoleDebug);
+    console.log       = partial(wrapper, console.LEVEL_DEBUG, consoleLog);
 
     for (var colorName in colors) {
         var colorValue = colors[colorName];
-        colorName = colorName.substr(0, 1).toUpperCase() + colorName.substr(1);
+        colorName      = colorName.substr(0, 1).toUpperCase() + colorName.substr(1);
 
-        console['critical' + colorName] = partial(wrapper, console.LEVEL_CRITICAL, consoleError, colorValue);
-        console['alert' + colorName] = partial(wrapper, console.LEVEL_ALERT, consoleError, colorValue);
-        console['error' + colorName] = partial(wrapper, console.LEVEL_ERROR, consoleError, colorValue);
-
-        console['warn' + colorName] = partial(wrapper, console.LEVEL_WARN, consoleWarn, colorValue);
-        console['notice' + colorName] = partial(wrapper, console.LEVEL_NOTICE, consoleWarn, colorValue);
-
-        console['info' + colorName] = partial(wrapper, console.LEVEL_INFO, consoleInfo, colorValue);
-
-        console['debug' + colorName] = partial(wrapper, console.LEVEL_DEBUG, consoleDebug, colorValue);
-        console['log' + colorName] = partial(wrapper, console.LEVEL_DEBUG, consoleLog, colorValue);
+        console['emergency' + colorName] = partial(wrapper, console.LEVEL_EMERGENCY, consoleError, colorValue);
+        console['critical' + colorName]  = partial(wrapper, console.LEVEL_CRITICAL, consoleError, colorValue);
+        console['alert' + colorName]     = partial(wrapper, console.LEVEL_ALERT, consoleError, colorValue);
+        console['error' + colorName]     = partial(wrapper, console.LEVEL_ERROR, consoleError, colorValue);
+        console['warn' + colorName]      = partial(wrapper, console.LEVEL_WARN, consoleWarn, colorValue);
+        console['notice' + colorName]    = partial(wrapper, console.LEVEL_NOTICE, consoleWarn, colorValue);
+        console['info' + colorName]      = partial(wrapper, console.LEVEL_INFO, consoleInfo, colorValue);
+        console['debug' + colorName]     = partial(wrapper, console.LEVEL_DEBUG, consoleDebug, colorValue);
+        console['log' + colorName]       = partial(wrapper, console.LEVEL_DEBUG, consoleLog, colorValue);
     }
 
     return console;
