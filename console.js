@@ -215,6 +215,16 @@
     console.debug     = partial(wrapper, console.LEVEL_DEBUG, consoleDebug);
     console.log       = partial(wrapper, console.LEVEL_DEBUG, consoleLog);
 
+    console.emergency.level = console.LEVEL_EMERGENCY;
+    console.critical.level  = console.LEVEL_CRITICAL;
+    console.alert.level     = console.LEVEL_ALERT;
+    console.error.level     = console.LEVEL_ERROR;
+    console.warn.level      = console.LEVEL_WARN;
+    console.notice.level    = console.LEVEL_NOTICE;
+    console.info.level      = console.LEVEL_INFO;
+    console.debug.level     = console.LEVEL_DEBUG;
+    console.log.level       = console.LEVEL_DEBUG;
+
     for (var colorName in colors) {
         var colorValue = colors[colorName];
         colorName      = colorName.substr(0, 1).toUpperCase() + colorName.substr(1);
@@ -228,6 +238,16 @@
         console['info' + colorName]      = partial(wrapper, console.LEVEL_INFO, consoleInfo, colorValue);
         console['debug' + colorName]     = partial(wrapper, console.LEVEL_DEBUG, consoleDebug, colorValue);
         console['log' + colorName]       = partial(wrapper, console.LEVEL_DEBUG, consoleLog, colorValue);
+
+        console['emergency' + colorName].level = console.LEVEL_EMERGENCY;
+        console['critical' + colorName].level  = console.LEVEL_CRITICAL;
+        console['alert' + colorName].level     = console.LEVEL_ALERT;
+        console['error' + colorName].level     = console.LEVEL_ERROR;
+        console['warn' + colorName].level      = console.LEVEL_WARN;
+        console['notice' + colorName].level    = console.LEVEL_NOTICE;
+        console['info' + colorName].level      = console.LEVEL_INFO;
+        console['debug' + colorName].level     = console.LEVEL_DEBUG;
+        console['log' + colorName].level       = console.LEVEL_DEBUG;
     }
 
     return console;

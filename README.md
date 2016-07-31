@@ -1,5 +1,5 @@
-# Console
+# js-console
 ## Install
 ```
-bower install console --save
+bower install js-console --save
 ```
