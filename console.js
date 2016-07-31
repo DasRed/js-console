@@ -73,15 +73,10 @@
      * @returns {String}
      */
     function getScriptName() {
-        var errorHelper = new Error();
-        if (errorHelper.stack === undefined) {
-            return 'unknown';
-        }
-
-        var stack  = errorHelper.stack.match(/http\:\/\/(.*?)\.js/gi);
-        var source = stack[stack.length - 1];
-        if (stack.length >= 4) {
-            source = stack[3];
+        var source = 'unknown';
+        var stack  = getStackFromError();
+        if (stack.length !== 0) {
+            source = stack[0];
         }
 
         if (root.location !== undefined) {
@@ -97,11 +92,35 @@
     }
 
     /**
+     * returns the stack without console
+     *
+     * @returns {Array}
+     */
+    function getStackFromError() {
+        var errorHelper = new Error();
+        if (errorHelper.stack === undefined) {
+            return [];
+        }
+
+        var stack = errorHelper.stack.match(/http\:\/\/(.*?)\.js/gi);
+        var test  = /console/i;
+        for (var i = 0; i < stack.length; i++) {
+            if (stack[i].match(test) !== null) {
+                continue;
+            }
+
+            return stack.slice(i);
+        }
+
+        return [];
+    }
+
+    /**
      * partial
      *
      * @param {Function} callback
-     * @param {Mixed} ...
-     * @param {Mixed} ...
+     * @param {*} ...
+     * @param {*} ...
      */
     function partial(callback) {
         var args = Array.prototype.slice.call(arguments);
@@ -118,8 +137,8 @@
      * @param {String} warnLevel
      * @param {Function} proceed
      * @param {String} color if content in "color" starts with "color: #" thenn it is used als color value, otherwise as log message
-     * @param {Mixed} ...
-     * @param {Mixed} ...
+     * @param {*} ...
+     * @param {*} ...
      * ...
      */
     function wrapper(warnLevel, proceed, color) {
