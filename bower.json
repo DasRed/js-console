@@ -1,7 +1,7 @@
 {
     "name": "js-console",
     "homepage": "https://github.com/DasRed/js-console",
-    "main": "",
+    "main": "Wraps the javascript console with log levels, formatting and colors.",
     "license": "MIT",
     "ignore": [
         "**/.*",
