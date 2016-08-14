@@ -102,7 +102,11 @@
             return [];
         }
 
-        var stack = errorHelper.stack.match(/http\:\/\/(.*?)\.js/gi);
+        var stack = errorHelper.stack.match(/http(s){0,1}\:\/\/(.*?)\.js/gi);
+        if (stack === null) {
+            return [];
+        }
+
         var test  = /console/i;
         for (var i = 0; i < stack.length; i++) {
             if (stack[i].match(test) !== null) {
