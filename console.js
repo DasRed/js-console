@@ -123,8 +123,7 @@
      * partial
      *
      * @param {Function} callback
-     * @param {*} ...
-     * @param {*} ...
+     * @param {...*}
      */
     function partial(callback) {
         var args = Array.prototype.slice.call(arguments);
@@ -141,8 +140,7 @@
      * @param {String} warnLevel
      * @param {Function} proceed
      * @param {String} color if content in "color" starts with "color: #" thenn it is used als color value, otherwise as log message
-     * @param {*} ...
-     * @param {*} ...
+     * @param {...*}
      * ...
      */
     function wrapper(warnLevel, proceed, color) {
