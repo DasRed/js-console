@@ -107,7 +107,7 @@
             return [];
         }
 
-        var test  = /console/i;
+        var test  = /console\.js$/i;
         for (var i = 0; i < stack.length; i++) {
             if (stack[i].match(test) !== null) {
                 continue;
