@@ -5,6 +5,12 @@ This overwrites the current js console to provide more log flexibility per envir
 
 ## Install
 ```
+yarn add js-browser-console --save
+```
+```
+npm install js-browser-console --save
+```
+```
 bower install js-console --save
 ```
 

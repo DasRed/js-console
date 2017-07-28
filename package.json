@@ -1,0 +1,19 @@
+{
+  "name": "js-browser-console",
+  "version": "1.0.9",
+  "description": "Wraps the javascript console with log levels, formatting and colors.",
+  "main": "console.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DasRed/js-console.git"
+  },
+  "author": "Marco Starker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DasRed/js-console/issues"
+  },
+  "homepage": "https://github.com/DasRed/js-console#readme"
+}
