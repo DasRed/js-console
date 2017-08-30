@@ -1,6 +1,6 @@
 {
   "name": "js-browser-console",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Wraps the javascript console with log levels, formatting and colors.",
   "main": "console.js",
   "scripts": {
