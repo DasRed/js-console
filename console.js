@@ -104,8 +104,9 @@
      * @property {Number} LEVEL_EMERGENCY
      */
 
+    var root = window || global;
     /** @var {Console|ConsoleEx} */
-    var console = window.console;
+    var console = root.console;
 
     /**
      * no op function
