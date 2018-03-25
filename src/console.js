@@ -79,8 +79,9 @@
  * @property {Number} LEVEL_EMERGENCY
  */
 
+const root = window || global;
 /** @var {Console|ConsoleEx} */
-const console = window.console;
+const console = root.console;
 
 /**
  * no op function
