@@ -145,10 +145,10 @@ export default class FormatterConsole extends FormatterInterface {
         }
 
         if (args[0] instanceof ColorizeCSS) {
-            args.splice(1, 0, `[${LEVEL_TEXT_MAP[level]}] [${getDate()}] [${getScriptName()}] `);
+            args.splice(1, 0, `[${LEVEL_TEXT_MAP[level]}] [${getDate()}] [${getScriptName()}]`);
         }
         else {
-            args.unshift(LEVEL_COLOR_MAP[level], `[${LEVEL_TEXT_MAP[level]}] [${getDate()}] [${getScriptName()}] `);
+            args.unshift(LEVEL_COLOR_MAP[level], `[${LEVEL_TEXT_MAP[level]}] [${getDate()}] [${getScriptName()}]`);
         }
 
         let lastIndexOfColor = args.slice(0).reverse().findIndex((arg) => arg instanceof ColorizeCSS || arg instanceof ColorizeText || typeof arg === 'string');
@@ -181,18 +181,18 @@ export default class FormatterConsole extends FormatterInterface {
             }
 
             else if (arg instanceof ColorizeText) {
-                result[0] += `%c%${evalType(arg.text)}%c`;
+                result[0] += ` %c%${evalType(arg.text)}%c`;
                 result.push(arg.css.toString(), arg.text, DEFAULT_CSS);
             }
 
             else {
                 const type = evalType(arg);
                 if (type === 's' && lastColorizeCSS !== undefined) {
-                    result[0] += `%c%s%c`;
+                    result[0] += ` %c%s%c`;
                     result.push(lastColorizeCSS.toString(), arg, DEFAULT_CSS);
                 }
                 else {
-                    result[0] += `%${type} `;
+                    result[0] += ` %${type}`;
                     result.push(arg);
                 }
             }
