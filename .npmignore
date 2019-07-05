@@ -1,6 +1,6 @@
 /.idea
-/dist
 /node_modules
-/test.html
-/test.js
+/.gitignore
+/.test.html
+/.test.js
 npm-debug.log
