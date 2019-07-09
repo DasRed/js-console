@@ -139,11 +139,24 @@ export default class FormatterConsole extends FormatterInterface {
             args.unshift(`[${LEVEL_TEXT_MAP[level]}] [${getDate()}] [${getScriptName()}]`);
         }
 
-        let lastIndexOfColor = args.slice(0).reverse().findIndex((arg) => arg instanceof ColorizeCSS || arg instanceof ColorizeText || typeof arg === 'string');
-        if (lastIndexOfColor === -1) {
+        const colorInformation = args.reduce((acc, arg, index) => {
+            if (arg instanceof ColorizeCSS || arg instanceof ColorizeText) {
+                acc.color = index;
+            }
+            if (typeof arg === 'string') {
+                acc.string = index;
+            }
+
+            return acc;
+        }, {color:  -1,
+            string: -1
+        });
+
+        if (colorInformation.color === -1) {
             return args;
         }
-        lastIndexOfColor = args.length - lastIndexOfColor - 1;
+
+        const lastIndexOfColor = Math.max(colorInformation.color, colorInformation.string);
 
         if (HAS_COLOR_SUPPORT === false) {
             return arg
