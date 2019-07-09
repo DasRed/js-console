@@ -1,7 +1,6 @@
 import FormatterInterface from './interface.js';
 import Logger from '../logger.js';
 import ColorizeText from '../colorize/text.js';
-import Colorize from '../colorize.js';
 import ColorizeCSS from '../colorize/css.js';
 
 const HAS_COLOR_SUPPORT = (navigator === undefined || navigator.userAgent === undefined || (/Trident/g).test(navigator.userAgent) === false);
@@ -16,17 +15,6 @@ const LEVEL_TEXT_MAP    = {
     [Logger.LEVEL.INFO]:      'info     ',
     [Logger.LEVEL.LOG]:       'debug    ',
     [Logger.LEVEL.DEBUG]:     'debug    ',
-};
-const LEVEL_COLOR_MAP   = {
-    [Logger.LEVEL.EMERGENCY]: Colorize.COLOR.RED,
-    [Logger.LEVEL.CRITICAL]:  Colorize.COLOR.RED,
-    [Logger.LEVEL.ALERT]:     Colorize.COLOR.RED,
-    [Logger.LEVEL.ERROR]:     Colorize.COLOR.RED,
-    [Logger.LEVEL.WARN]:      Colorize.COLOR.ORANGE,
-    [Logger.LEVEL.NOTICE]:    Colorize.COLOR.ORANGE,
-    [Logger.LEVEL.INFO]:      Colorize.COLOR.GREEN,
-    [Logger.LEVEL.LOG]:       Colorize.COLOR.GREEN,
-    [Logger.LEVEL.DEBUG]:     Colorize.COLOR.GREEN,
 };
 
 /**
@@ -148,16 +136,14 @@ export default class FormatterConsole extends FormatterInterface {
             args.splice(1, 0, `[${LEVEL_TEXT_MAP[level]}] [${getDate()}] [${getScriptName()}]`);
         }
         else {
-            args.unshift(new ColorizeText(`[${LEVEL_TEXT_MAP[level]}]`, LEVEL_COLOR_MAP[level]), `[${getDate()}] [${getScriptName()}]`);
+            args.unshift(`[${LEVEL_TEXT_MAP[level]}] [${getDate()}] [${getScriptName()}]`);
         }
 
         let lastIndexOfColor = args.slice(0).reverse().findIndex((arg) => arg instanceof ColorizeCSS || arg instanceof ColorizeText || typeof arg === 'string');
         if (lastIndexOfColor === -1) {
             return args;
         }
-        else {
-            lastIndexOfColor = args.length - lastIndexOfColor - 1;
-        }
+        lastIndexOfColor = args.length - lastIndexOfColor - 1;
 
         if (HAS_COLOR_SUPPORT === false) {
             return arg
