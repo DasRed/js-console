@@ -148,7 +148,7 @@ export default class FormatterConsole extends FormatterInterface {
             args.splice(1, 0, `[${LEVEL_TEXT_MAP[level]}] [${getDate()}] [${getScriptName()}]`);
         }
         else {
-            args.unshift(LEVEL_COLOR_MAP[level], `[${LEVEL_TEXT_MAP[level]}] [${getDate()}] [${getScriptName()}]`);
+            args.unshift(new ColorizeText(`[${LEVEL_TEXT_MAP[level]}]`, LEVEL_COLOR_MAP[level]), `[${getDate()}] [${getScriptName()}]`);
         }
 
         let lastIndexOfColor = args.slice(0).reverse().findIndex((arg) => arg instanceof ColorizeCSS || arg instanceof ColorizeText || typeof arg === 'string');
