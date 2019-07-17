@@ -6,10 +6,11 @@ import Colorize from './colorize.js';
 const logger = new Logger({
     formatter: new FormatterConsole(),
     writer:    new WriterConsole(),
+    level:     Logger.LEVEL.DEBUG,
 });
 
 console.logger = logger;
-console.LEVEL = Logger.LEVEL;
+console.LEVEL  = Logger.LEVEL;
 Object.defineProperty(console, 'level', {
     /**
      * @return {number}
