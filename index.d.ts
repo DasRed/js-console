@@ -26,25 +26,25 @@ declare namespace Logger {
 
         constructor(options?: LoggerConstructorOptions);
 
-        public alert(...args: any): Logger;
+        public alert(...args): Logger;
 
-        public critical(...args: any): Logger;
+        public critical(...args): Logger;
 
-        public debug(...args: any): Logger;
+        public debug(...args): Logger;
 
-        public emergency(...args: any): Logger;
+        public emergency(...args): Logger;
 
-        public error(...args: any): Logger;
+        public error(...args): Logger;
 
         private handle(level: LEVEL_VALUE, args: Array<any>): Logger;
 
-        public info(...args: any): Logger;
+        public info(...args): Logger;
 
-        public log(...args: any): Logger;
+        public log(...args): Logger;
 
-        public notice(...args: any): Logger;
+        public notice(...args): Logger;
 
-        public warn(...args: any): Logger;
+        public warn(...args): Logger;
     }
 
     export abstract class FormatterInterface {
