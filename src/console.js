@@ -4,9 +4,8 @@ import WriterConsole from './writer/console.js';
 import Colorize from './colorize.js';
 
 const logger = new Logger({
-    formatter: new FormatterConsole(),
-    writer:    new WriterConsole(),
-    level:     Logger.LEVEL.DEBUG,
+    writer: new WriterConsole({formatter: new FormatterConsole()}),
+    level:  Logger.LEVEL.DEBUG,
 });
 
 console.logger = logger;

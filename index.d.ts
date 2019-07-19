@@ -14,15 +14,13 @@ declare namespace Logger {
     type LEVEL_VALUE = LEVEL.DEBUG | LEVEL.LOG | LEVEL.INFO | LEVEL.NOTICE | LEVEL.WARN | LEVEL.ERROR | LEVEL.CRITICAL | LEVEL.ALERT | LEVEL.EMERGENCY;
 
     interface LoggerConstructorOptions {
-        formatter: FormatterInterface;
-        writer: WriterInterface;
+        writers: Array<WriterInterface>;
         level?: LEVEL_VALUE;
     }
 
     export class Logger {
-        public formatter: FormatterInterface;
-        public writer: WriterInterface;
         public level: LEVEL_VALUE;
+        public writer: WriterMulti;
 
         constructor(options?: LoggerConstructorOptions);
 
@@ -51,12 +49,41 @@ declare namespace Logger {
         public abstract format(level: LEVEL_VALUE, args: Array<any>): Array<any>;
     }
 
+    export class FormatterDummy extends FormatterInterface {
+        public format(level: LEVEL_VALUE, args: Array<any>): Array<any>;
+    }
+
     export class FormatterConsole extends FormatterInterface {
         public format(level: LEVEL_VALUE, args: Array<any>): Array<any>;
     }
 
+    interface WriterConstructorOptions {
+        formatter?: FormatterInterface;
+        level?: LEVEL_VALUE;
+    }
+
     export abstract class WriterInterface {
+        public level: LEVEL_VALUE;
+        public formatter?: FormatterInterface;
+
+        constructor(options?: WriterConstructorOptions);
+
         public abstract write(level: LEVEL_VALUE, args: Array<any>): Array<any>;
+    }
+
+    interface WriterMultiConstructorOptions {
+        writers: Array<WriterInterface>;
+        level?: LEVEL_VALUE;
+    }
+
+    export class WriterMulti extends WriterInterface {
+        public writers: Array<WriterInterface>;
+
+        constructor(options: WriterMultiConstructorOptions);
+
+        public append(writer: WriterInterface): WriterMulti;
+
+        public write(level: LEVEL_VALUE, args: Array<any>): Array<any>;
     }
 
     export class WriterConsole extends WriterInterface {

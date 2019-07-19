@@ -1,3 +1,5 @@
+import WriterMulti from './writer/multi.js';
+
 export default class Logger {
     static LEVEL = {
         DEBUG:     100,
@@ -13,14 +15,23 @@ export default class Logger {
 
     /**
      *
-     * @param {FormatterInterface} formatter
-     * @param {WriterInterface} writer
+     * @return {number}
+     */
+    get level() {
+        return this.writer.level;
+    }
+
+    set level(level) {
+        this.writer.level = level;
+    }
+
+    /**
+     *
+     * @param {WriterInterface[]} writers
      * @param {number} [level = Logger.LEVEL.ERROR]
      */
-    constructor({formatter, writer, level = Logger.LEVEL.ERROR}) {
-        this.formatter = formatter;
-        this.writer    = writer;
-        this.level     = level;
+    constructor({level = Logger.LEVEL.ERROR, writers}) {
+        this.writer = new WriterMulti({level, writers});
     }
 
     /**
@@ -75,9 +86,7 @@ export default class Logger {
      * @return {Logger}
      */
     handle(level, args) {
-        if (level >= this.level) {
-            this.writer.write(level, this.formatter.format(level, args));
-        }
+        this.writer.write(level, args);
 
         return this;
     }
