@@ -36,7 +36,7 @@ declare namespace Logger {
 
         public error(...args): Logger;
 
-        private handle(level: LEVEL_VALUE, args: Array<any>): Logger;
+        public handle(level: LEVEL_VALUE, args: Array<any>): Logger;
 
         public info(...args): Logger;
 

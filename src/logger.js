@@ -73,7 +73,6 @@ export default class Logger {
      * @param {number} level
      * @param {*[]} args
      * @return {Logger}
-     * @private
      */
     handle(level, args) {
         if (level >= this.level) {
