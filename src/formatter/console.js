@@ -123,6 +123,15 @@ function evalType(value) {
 
 export default class FormatterConsole extends FormatterInterface {
     /**
+     *
+     * @param {string} template
+     */
+    constructor(template = `[{level}] [{date}] [{script}]`) {
+        super();
+        this.template = template;
+    }
+
+    /**
      * @param {number} level
      * @param {*[]} args
      * @return {*[]}
@@ -132,11 +141,15 @@ export default class FormatterConsole extends FormatterInterface {
             return args;
         }
 
+        const template = this.template
+                             .replace('{level}', LEVEL_TEXT_MAP[level])
+                             .replace('{date}', getDate())
+                             .replace('{script}', getScriptName());
         if (args[0] instanceof ColorizeCSS) {
-            args.splice(1, 0, `[${LEVEL_TEXT_MAP[level]}] [${getDate()}] [${getScriptName()}]`);
+            args.splice(1, 0, template);
         }
         else {
-            args.unshift(`[${LEVEL_TEXT_MAP[level]}] [${getDate()}] [${getScriptName()}]`);
+            args.unshift(template);
         }
 
         const colorInformation = args.reduce((acc, arg, index) => {
