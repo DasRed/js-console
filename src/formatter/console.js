@@ -1,11 +1,10 @@
-import FormatterInterface from './interface.js';
-import Logger from '../logger.js';
-import ColorizeText from '../colorize/text.js';
 import ColorizeCSS from '../colorize/css.js';
+import ColorizeText from '../colorize/text.js';
+import Logger from '../logger.js';
+import FormatterInterface from './interface.js';
 
-const HAS_COLOR_SUPPORT = (navigator === undefined || navigator.userAgent === undefined || (/Trident/g).test(navigator.userAgent) === false);
-const DEFAULT_CSS       = 'background-color: transparent; color: #303943;';
-const LEVEL_TEXT_MAP    = {
+const DEFAULT_CSS    = 'background-color: transparent; color: #303943;';
+const LEVEL_TEXT_MAP = {
     [Logger.LEVEL.EMERGENCY]: 'emergency',
     [Logger.LEVEL.CRITICAL]:  'critical ',
     [Logger.LEVEL.ALERT]:     'alert    ',
@@ -161,7 +160,8 @@ export default class FormatterConsole extends FormatterInterface {
             }
 
             return acc;
-        }, {color:  -1,
+        }, {
+            color:  -1,
             string: -1
         });
 
@@ -170,19 +170,7 @@ export default class FormatterConsole extends FormatterInterface {
         }
 
         const lastIndexOfColor = Math.max(colorInformation.color, colorInformation.string);
-
-        if (HAS_COLOR_SUPPORT === false) {
-            return arg
-                .filter((arg) => arg instanceof ColorizeCSS)
-                .map((arg) => {
-                    if (arg instanceof ColorizeText) {
-                        return arg.text;
-                    }
-                    return arg;
-                });
-        }
-
-        let lastColorizeCSS = undefined;
+        let lastColorizeCSS    = undefined;
         return args.reduce((result, arg, index) => {
             if (index > lastIndexOfColor) {
                 result.push(arg);
